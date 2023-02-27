@@ -288,19 +288,5 @@ def shortest_route(numberCustomers, numberTrucks, numberDrones, SR, droneLimit, 
     if showAnimation:
         A.animateCSV(csvPath, customers)
 
-shortest_route(15,1,3,1.25,50)
-xxxxxxxx
 
-for numCustomers in range(5,30,5):
-    for numDrone in range(5):
-        if numDrone != 0:
-            for lim in range(30, 120, 15):
-                for i in range(5):
-                    SR = 1 + i*0.25
-                    print(f'Customers: {numCustomers}')
-                    print(f'Drones: {numDrone}')
-                    print(f'Drone limit: {lim}')
-                    print(f'Speed Raio: {SR}')
-                    shortest_route(numCustomers,1,numDrone,SR, lim)
-        else:
-            shortest_route(numCustomers,1,0,1,0)
+

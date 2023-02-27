@@ -9,8 +9,6 @@ import csv
 
 # Print final solution
 def animate(numberCustomers, numberDrones, numberTrucks, truck_arcs_ordered, drone_arcs, customers, SR, drone_limit):
-    print(f'turck_arcs_ordered {truck_arcs_ordered}')
-    print(f'Drone arcs: {drone_arcs}')
     xVals = []
     yVals = []
     for customer in customers:
@@ -143,7 +141,7 @@ def animate(numberCustomers, numberDrones, numberTrucks, truck_arcs_ordered, dro
         fileName = f'{numberCustomers}C-{numberTrucks}T-{numberDrones}D.gif'
     else:
         fileName = f'{numberCustomers}C-{numberTrucks}T-{numberDrones}D-{SR_str}SR-{int(drone_limit)}LIM.gif'
-    print(f'fileName: {fileName}')
+    print(f'Animation saved as: {fileName}')
     print()
     _animation.save(fileName, writer=writer)
 
