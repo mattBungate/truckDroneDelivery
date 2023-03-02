@@ -32,7 +32,7 @@ EPS = 0.0001
 # 
 # Creates animation and saves it as a gif file
 # 
-def shortest_route(numberCustomers, numberTrucks, numberDrones, SR, droneLimit, csvPath='Routes.csv', showAnimation=True):
+def shortest_route(numberCustomers, numberTrucks, numberDrones, SR, droneLimit, customers, dist, minDist, csvPath='Routes.csv', showAnimation=True):
     csvInput = [numberCustomers, numberTrucks, numberDrones, SR, droneLimit, seedNum]
     drone_limit = float(droneLimit)
     # Sets
@@ -44,7 +44,7 @@ def shortest_route(numberCustomers, numberTrucks, numberDrones, SR, droneLimit, 
     startTime = time.time()
 
     # Create the instance
-    customers, dist, minDist = F.instanceGeneration(numberCustomers, numberTrucks, 'r')
+    #customers, dist, minDist = F.instanceGeneration(numberCustomers, numberTrucks, 'r')
 
     valid_drone_nodes = F.valid_drone_routes(dist, drone_limit)
 
@@ -177,7 +177,7 @@ def shortest_route(numberCustomers, numberTrucks, numberDrones, SR, droneLimit, 
     # Truck must visit at leat the number of customers calculated earlier
     truck_visits_number_nodes = BMP.addConstr(quicksum(X[i,j,t] for i in C for j in C for t in T) >= minNodes)
 
-    BMP.setParam('OutputFlag',1)
+    BMP.setParam('OutputFlag',0)
     cuts_added = 0
     while_counter = 0
     bestEver = 99999
@@ -280,13 +280,34 @@ def shortest_route(numberCustomers, numberTrucks, numberDrones, SR, droneLimit, 
         csvInput.append(f'{arc[0]}-{arc[1]}-{arc[2]}')
 
     # Write solution to csv file
-    file = open(csvPath, 'w')
+    file = open(csvPath, 'a')
     csvWriter = csv.writer(file)
     csvWriter.writerow(csvInput)
     file.close()
-
     if showAnimation:
         A.animateCSV(csvPath, customers)
 
 
 
+for numCustomers in range(5,35,5):
+    csvPath = f'Routes-C{numCustomers}.csv'
+    customers, dist, minDist  = F.instanceGeneration(numCustomers, 1, 'r')
+    for numDrones in range(4):
+        if numDrones == 0:
+            if numCustomers == 5:
+                continue
+            shortest_route(numCustomers, 1, 0, 1, 0, customers, dist, minDist, csvPath=csvPath, showAnimation=False)
+            continue
+        for SR_inc in range(5):
+            SR = 1 + SR_inc/4
+            for droneLimit in range(30,90,15):
+                print(f'Customers: {numCustomers}')
+                print(f'Drones: {numDrones}')
+                print(f'Speed Ratio: {SR}')
+                print(f'Drone Limit: {droneLimit}')
+
+                shortest_route(numCustomers, 1, numDrones, SR, droneLimit, customers, dist, minDist, csvPath=csvPath, showAnimation=False)
+    A.animateCSV(csvPath, customers)
+    
+#csvPath='RoutesV2.csv'
+#A.animateCSV(csvPath, customers)

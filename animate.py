@@ -138,9 +138,9 @@ def animate(numberCustomers, numberDrones, numberTrucks, truck_arcs_ordered, dro
 
     #fileName = f'{numberCustomers}C-{numberTrucks}T-{numberDrones}D-{SR_str}SR.gif'
     if numberDrones == 0:
-        fileName = f'{numberCustomers}C-{numberTrucks}T-{numberDrones}D.gif'
+        fileName = f'./{numberCustomers}Canimations/{numberCustomers}C-{numberTrucks}T-{numberDrones}D.gif'
     else:
-        fileName = f'{numberCustomers}C-{numberTrucks}T-{numberDrones}D-{SR_str}SR-{int(drone_limit)}LIM.gif'
+        fileName = f'./{numberCustomers}Canimations/{numberCustomers}C-{numberTrucks}T-{numberDrones}D-{SR_str}SR-{int(drone_limit)}LIM.gif'
     print(f'Animation saved as: {fileName}')
     print()
     _animation.save(fileName, writer=writer)
@@ -173,6 +173,3 @@ def animateCSV(csvPath, customers):
 
             truck_arcs = [int(node) for node in truck_arcs_ordered] 
             animate(numberCustomers, numberDrones, numberTrucks, truck_arcs, drone_arcs, customers, SR, drone_limit)
-
-
-print([i for i in range(1)])
